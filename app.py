@@ -10,10 +10,18 @@ app = Flask(__name__)
 # Password Cracking Function (UPDATED)
 # -----------------------------
 def crack_password(password):
-    chars = string.ascii_letters + string.digits + "!@#$%"
     attempts = 0
     start_time = time.time()
-    max_attempts = 500000  # limit to avoid long waiting
+
+    # Step 1: Detect password type
+    if password.isdigit():
+        chars = string.digits
+    elif password.isalpha():
+        chars = string.ascii_lowercase
+    else:
+        chars = string.ascii_letters + string.digits
+
+    max_attempts = 1000000  # increased limit
 
     for length in range(1, len(password) + 1):
         for guess in itertools.product(chars, repeat=length):
@@ -24,7 +32,6 @@ def crack_password(password):
                 end_time = time.time()
                 return attempts, round(end_time - start_time, 4)
 
-            # Stop if too complex
             if attempts > max_attempts:
                 return "Too Complex", "Time Exceeded"
 
