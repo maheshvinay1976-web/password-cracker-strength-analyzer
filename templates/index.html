@@ -17,8 +17,13 @@
 <div class="result">
     <p><b>Password:</b> {{ result.password }}</p>
     <p><b>Strength:</b> {{ result.strength }}</p>
-    <p><b>Attempts to Crack:</b> {{ result.attempts }}</p>
-    <p><b>Time Taken:</b> {{ result.time }} seconds</p>
+
+    {% if result.attempts == "Too Complex" %}
+        <p><b>Status:</b> Password too strong to crack</p>
+    {% else %}
+        <p><b>Attempts to Crack:</b> {{ result.attempts }}</p>
+        <p><b>Time Taken:</b> {{ result.time }} seconds</p>
+    {% endif %}
 </div>
 {% endif %}
 
